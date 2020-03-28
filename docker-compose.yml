@@ -42,8 +42,8 @@ services:
   wordpress:
     image: wordpress
     restart: always
-    ports:
-      - 8080:80
+    secrets:
+      - wp_db_pass
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: root
@@ -71,6 +71,8 @@ services:
   db:
     image: mysql:5.7
     restart: always
+    secrets:
+      - wp_db_pass
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: root
@@ -96,6 +98,9 @@ networks:
     driver: overlay
     name: backend
 
+secrets:
+  wp_db_pass:
+    external: true
 volumes:
   db: {}
   wp-root: {}
